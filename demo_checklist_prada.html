@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Demo Checklist — PM Bootcamp</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='8' fill='%23c8a96e'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-size='38' font-family='serif'>👗</text></svg>" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cream: #faf7f2;
+      --warm-white: #f5f0e8;
+      --gold: #c8a96e;
+      --gold-light: #e8d5a3;
+      --gold-dark: #a07840;
+      --noir: #1a1410;
+      --espresso: #2c1f14;
+      --warm-gray: #8a7d70;
+      --blush: #e8c5b0;
+      --deep-red: #8b1a1a;
+      --ink: #3d2e22;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--cream);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      color: var(--ink);
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Textured background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(200,169,110,0.04) 40px, rgba(200,169,110,0.04) 41px),
+        repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(200,169,110,0.04) 40px, rgba(200,169,110,0.04) 41px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Decorative corner lines */
+    .corner-decoration {
+      position: fixed;
+      width: 120px;
+      height: 120px;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .corner-decoration.top-left { top: 20px; left: 20px; border-top: 1px solid var(--gold); border-left: 1px solid var(--gold); }
+    .corner-decoration.top-right { top: 20px; right: 20px; border-top: 1px solid var(--gold); border-right: 1px solid var(--gold); }
+    .corner-decoration.bottom-left { bottom: 20px; left: 20px; border-bottom: 1px solid var(--gold); border-left: 1px solid var(--gold); }
+    .corner-decoration.bottom-right { bottom: 20px; right: 20px; border-bottom: 1px solid var(--gold); border-right: 1px solid var(--gold); }
+
+    .wrapper {
+      position: relative;
+      z-index: 2;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 60px 40px 100px;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 64px;
+      animation: fadeInDown 0.9s ease forwards;
+    }
+
+    .header .eyebrow {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+
+    .header h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(36px, 6vw, 62px);
+      font-weight: 700;
+      color: var(--espresso);
+      line-height: 1.1;
+      margin-bottom: 6px;
+    }
+
+    .header h1 em {
+      font-style: italic;
+      color: var(--gold-dark);
+    }
+
+    .header .subtitle {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--warm-gray);
+      font-style: italic;
+      letter-spacing: 1px;
+      margin-top: 14px;
+    }
+
+    .header-divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 28px auto 0;
+      max-width: 340px;
+    }
+    .header-divider::before,
+    .header-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold));
+    }
+    .header-divider::after {
+      background: linear-gradient(to left, transparent, var(--gold));
+    }
+    .header-divider span {
+      font-size: 18px;
+      color: var(--gold);
+    }
+
+    /* Progress bar */
+    .progress-bar-wrap {
+      background: var(--warm-white);
+      border: 1px solid var(--gold-light);
+      border-radius: 2px;
+      height: 4px;
+      margin-bottom: 56px;
+      position: relative;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(to right, var(--gold), var(--gold-dark));
+      width: 0%;
+      transition: width 0.5s ease;
+      border-radius: 2px;
+    }
+    .progress-label {
+      text-align: center;
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--warm-gray);
+      margin-top: 8px;
+    }
+    .progress-label span { color: var(--gold-dark); font-weight: 600; }
+
+    /* Section */
+    .section {
+      margin-bottom: 52px;
+      animation: fadeInUp 0.7s ease forwards;
+      opacity: 0;
+    }
+    .section:nth-child(1) { animation-delay: 0.1s; }
+    .section:nth-child(2) { animation-delay: 0.2s; }
+    .section:nth-child(3) { animation-delay: 0.3s; }
+    .section:nth-child(4) { animation-delay: 0.4s; }
+    .section:nth-child(5) { animation-delay: 0.5s; }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--gold-light);
+    }
+
+    .section-icon {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(200,169,110,0.3);
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--espresso);
+      letter-spacing: 0.3px;
+    }
+
+    .section-meta {
+      margin-left: auto;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--warm-gray);
+      white-space: nowrap;
+    }
+
+    /* Checklist items */
+    .check-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 14px 18px;
+      margin-bottom: 6px;
+      background: rgba(255,255,255,0.6);
+      border: 1px solid transparent;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+
+    .check-item:hover {
+      background: rgba(255,255,255,0.9);
+      border-color: var(--gold-light);
+      transform: translateX(3px);
+    }
+
+    .check-item.done {
+      background: rgba(200,169,110,0.08);
+      border-color: rgba(200,169,110,0.3);
+    }
+
+    .check-item.done .item-text {
+      color: var(--warm-gray);
+      text-decoration: line-through;
+      text-decoration-color: var(--gold);
+    }
+
+    .check-box {
+      width: 22px;
+      height: 22px;
+      border: 1.5px solid var(--gold);
+      border-radius: 1px;
+      flex-shrink: 0;
+      margin-top: 1px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      background: white;
+    }
+
+    .check-item.done .check-box {
+      background: var(--gold);
+      border-color: var(--gold-dark);
+    }
+
+    .check-box::after {
+      content: '✓';
+      color: white;
+      font-size: 13px;
+      font-weight: bold;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .check-item.done .check-box::after { opacity: 1; }
+
+    .item-text {
+      font-size: 15px;
+      font-weight: 400;
+      line-height: 1.55;
+      color: var(--ink);
+      transition: all 0.2s ease;
+      flex: 1;
+    }
+
+    .item-note {
+      font-style: italic;
+      font-size: 13px;
+      color: var(--warm-gray);
+      margin-top: 3px;
+      display: block;
+    }
+
+    /* Crisis scenarios — highlighted */
+    .crisis-item {
+      background: rgba(139,26,26,0.04);
+      border-color: rgba(139,26,26,0.15);
+    }
+    .crisis-item:hover { border-color: rgba(139,26,26,0.3); }
+    .crisis-item.done { background: rgba(200,169,110,0.08); border-color: rgba(200,169,110,0.3); }
+
+    /* Quote block */
+    .quote-block {
+      border-left: 3px solid var(--gold);
+      padding: 16px 24px;
+      margin: 32px 0 40px;
+      background: rgba(232,213,163,0.15);
+    }
+
+    .quote-block p {
+      font-family: 'Playfair Display', serif;
+      font-size: 17px;
+      font-style: italic;
+      color: var(--espresso);
+      line-height: 1.7;
+    }
+
+    .quote-block cite {
+      display: block;
+      margin-top: 8px;
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold-dark);
+      font-style: normal;
+    }
+
+    /* Reset button */
+    .footer-actions {
+      text-align: center;
+      margin-top: 64px;
+      padding-top: 40px;
+      border-top: 1px solid var(--gold-light);
+    }
+
+    .btn-reset {
+      background: transparent;
+      border: 1px solid var(--gold);
+      color: var(--gold-dark);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 13px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      padding: 12px 36px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-reset:hover {
+      background: var(--gold);
+      color: white;
+    }
+
+    .footer-note {
+      margin-top: 24px;
+      font-size: 12px;
+      color: var(--warm-gray);
+      letter-spacing: 1px;
+      font-style: italic;
+    }
+
+    /* Animations */
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Completed celebration */
+    .all-done-banner {
+      display: none;
+      text-align: center;
+      padding: 28px;
+      background: linear-gradient(135deg, rgba(200,169,110,0.15), rgba(200,169,110,0.05));
+      border: 1px solid var(--gold);
+      margin-top: 48px;
+      animation: fadeInUp 0.5s ease;
+    }
+
+    .all-done-banner p {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-style: italic;
+      color: var(--espresso);
+    }
+
+    .all-done-banner small {
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold-dark);
+    }
+  </style>
+</head>
+<body>
+
+<div class="corner-decoration top-left"></div>
+<div class="corner-decoration top-right"></div>
+<div class="corner-decoration bottom-left"></div>
+<div class="corner-decoration bottom-right"></div>
+
+<div class="wrapper">
+
+  <header class="header">
+    <div class="eyebrow">PM Bootcamp 2.0 · Workshop 2</div>
+    <h1>The Art of <em>Demo</em></h1>
+    <p class="subtitle">Чек-ліст успішної демо-презентації</p>
+    <div class="header-divider"><span>✦</span></div>
+  </header>
+
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="progressFill"></div>
+  </div>
+  <div class="progress-label">Виконано: <span id="progressText">0 / 0</span></div>
+
+  <div class="quote-block">
+    <p>«Клієнт хоче не просто побачити фічі — він хоче знати, чи може він вам довіряти, чи рухаєтесь ви в правильному напрямку і чи не переплачує він.»</p>
+    <cite>Workshop insight</cite>
+  </div>
+
+  <!-- Section 1 -->
+  <div class="section" id="section-1">
+    <div class="section-header">
+      <div class="section-icon">📋</div>
+      <div class="section-title">До демо — Підготовка</div>
+      <div class="section-meta" id="meta-1">0/0</div>
+    </div>
+
+    <div class="check-item" onclick="toggle(this)">
+      <div class="check-box"></div>
+      <div class="item-text">Узгодити дату демо з клієнтом і повідомити всіх учасників
+        <span class="item-note">Дата демо = дата спринт-рев'ю (при роботі по Scrum)</span>
+      </div>
+    </div>
+    <div class="check-item" onclick="toggle(this)">
+      <div class="check-box"></div>
+      <div class="item-text">Визначити та зафіксувати ціль демо
+        <span class="item-note">Що хочемо отримати? Апрув? Фідбек? Інформування?</span>
+      </div>
+    </div>
+    <div class="check-item" onclick="toggle(this)">
+      <div class="check-box"></div>
+      <div class="item-text">Уточнити список учасників з боку клієнта
+        <span class="item-note">Від аудиторії залежить подача, тон і рівень деталізації</span>
+      </div>
+    </div>
+    <div class="check-item" onclick="toggle(this)">
+      <div class="check-box"></div>
+      <div class="item-text">Підготувати адженду і надіслати клієнту заздалегідь</div>
+    </div>
+    <div class="check-item" onclick="toggle(this)">
+      <div class="check-box"></div>
+      <div class="item-text">Створити івент у календарі з посиланням на зустріч</div>
+    </div>
+    <div class="check-item" onclick="toggle(this)">
+      <div class="check-box"></div>
+      <div class="item-text">Визначити презентера та технічного саппортера (підстраховку)</div>
+    </div>
+    <div class="check-item" onclick="toggle(this)">
+      <div class="check-box"></div>
+      <div class="item-text">Виписати питання клієнта з попередніх зустрічей і підготувати відповіді</div>
+    </div>
+    <div class="check-item" onclick="toggle(this)">
+      <div class="check-box"></div>
+      <div class="item-text">Ввести Code Freeze / Deploy Freeze на демо-середовище
+        <span class="item-note">Нічого не деплоїмо без тестування прямо перед демо</span>
+      </div>
+    </div>
+    <div class="check-item" onclick="toggle(this)">
+      <div class="check-box"></div>
+      <div class="item-text">Підготувати основний сценарій демо (крок за кроком)</div>
+    </div>
+    <div class="check-item" onclick="toggle(this)">
+      <div class="check-box"></div>
+      <div class="item-text">Підготувати <strong>план Б</strong> — скріни, відеозапис або статичний прототип
+        <span class="item-note">На випадок технічного збою або відсутності з'єднання</span>
+      </div>
+    </div>
+    <div class="check-item" onclick="toggle(this)">
+      <div class="check-box"></div>
+      <div class="item-text">Провести внутрішнє демо (репетицію) з командою</div>
+    </div>
+    <div class="check-item" onclick="toggle(this)">
+      <div class="check-box"></div>
+      <div class="item-text">Перевірити доступи, тестові дані та коректність профілів на демо-середовищі</div>
+    </div>
+    <div class="check-item" onclick="toggle(this)">
+      <div class="check-box"></div>
+      <div class="item-text">Вимкнути сповіщення на пристрої презентера</div>
+    </div>
+    <div class="check-item" onclick="toggle(this)">
+      <div class="check-box"></div>
+      <div class="item-text">Перевірити інтернет-з'єднання, мікрофон, камеру та розмір екрану</div>
+    </div>
+  </div>
+
+  <!-- Section 2 -->
+  <div class="section" id="section-2">
+    <div class="section-header">
+      <div class="section-icon">🎬</div>
+      <div class="section-title">Під час демо — Проведення</div>
+      <div class="section-meta" id="meta-2">0/0</div>
+    </div>
+
+    <div class="check-item" onclick="toggle(this)">
+      <div class="check-box"></div>
+      <div class="item-text">Увімкнути запис зустрічі та повідомити учасників</div>
+    </div>
+    <div class="check-item" onclick="toggle(this)">
+      <div class="check-box"></div>
+      <div class="item-text">Представити команду і озвучити адженду на початку</div>
+    </div>
+    <div class="check-item" onclick="toggle(this)">
+      <div class="check-box"></div>
+      <div class="item-text">Нагадати клієнту контекст: де ми були, що зробили, чому саме так
+        <span class="item-note">Клієнт має розуміти «звідки» і «навіщо», а не лише «що»</span>
+      </div>
+    </div>
+    <div class="check-item" onclick="toggle(this)">
+      <div class="check-box"></div>
+      <div class="item-text">Фасилітувати зустріч — утримувати фокус і керувати часом</div>
+    </div>
+    <div class="check-item" onclick="toggle(this)">
+      <div class="check-box"></div>
+      <div class="item-text">Застосовувати техніку <strong>Parking Lot</strong> — фіксувати офтопік-питання і повертатись до них наприкінці</div>
+    </div>
+    <div class="check-item" onclick="toggle(this)">
+      <div class="check-box"></div>
+      <div class="item-text">Зібрати фідбек за технікою <strong>Світлофор</strong> (🟢🟡🔴) прямо на зустрічі</div>
+    </div>
+    <div class="check-item" onclick="toggle(this)">
+      <div class="check-box"></div>
+      <div class="item-text">Пройтися по Parking Lot перед закриттям зустрічі</div>
+    </div>
+    <div class="check-item" onclick="toggle(this)">
+      <div class="check-box"></div>
+      <div class="item-text">Узгодити наступні кроки для обох сторін (хто, що і коли)</div>
+    </div>
+  </div>
+
+  <!-- Section 3 -->
+  <div class="section" id="section-3">
+    <div class="section-header">
+      <div class="section-icon">📨</div>
+      <div class="section-title">Після демо — Follow-up</div>
+      <div class="section-meta" id="meta-3">0/0</div>
+    </div>
+
+    <div class="check-item" onclick="toggle(this)">
+      <div class="check-box"></div>
+      <div class="item-text">Надіслати клієнту Summary та Follow-up з наступними кроками</div>
+    </div>
+    <div class="check-item" onclick="toggle(this)">
+      <div class="check-box"></div>
+      <div class="item-text">Переконатись, що клієнт отримав і підтвердив summary</div>
+    </div>
+    <div class="check-item" onclick="toggle(this)">
+      <div class="check-box"></div>
+      <div class="item-text">Надати клієнту доступ до live-версії (якщо задеплоєно)</div>
+    </div>
+    <div class="check-item" onclick="toggle(this)">
+      <div class="check-box"></div>
+      <div class="item-text">Занести всі зауваження в беклог як майбутні задачі</div>
+    </div>
+    <div class="check-item" onclick="toggle(this)">
+      <div class="check-box"></div>
+      <div class="item-text">Поділитися позитивним фідбеком клієнта з командою
+        <span class="item-note">Метод бутерброду: добре → конструктивне → добре</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 4 -->
+  <div class="section" id="section-4">
+    <div class="section-header">
+      <div class="section-icon">🚨</div>
+      <div class="section-title">Кризові сценарії — Як реагувати</div>
+      <div class="section-meta" id="meta-4">0/0</div>
+    </div>
+
+    <div class="check-item crisis-item" onclick="toggle(this)">
+      <div class="check-box"></div>
+      <div class="item-text"><strong>«Це не те, що ми просили»</strong>
+        <span class="item-note">1. Подякуй і не захищайся → 2. Уточни, який крок здається зайвим → 3. Поясни рішення з доказами → 4. Запропонуй варіант на перегляд → 5. Зафіксуй як відкрите питання</span>
+      </div>
+    </div>
+    <div class="check-item crisis-item" onclick="toggle(this)">
+      <div class="check-box"></div>
+      <div class="item-text"><strong>«А що, якщо це не спрацює?»</strong>
+        <span class="item-note">1. Вислухай досвід клієнта уважно → 2. Уточни технічні деталі попереднього рішення → 3. Поясни ключову різницю підходу → 4. Запропонуй пілот на 10% з правом відкату → 5. Запитай апрув</span>
+      </div>
+    </div>
+    <div class="check-item crisis-item" onclick="toggle(this)">
+      <div class="check-box"></div>
+      <div class="item-text"><strong>Технічний збій під час демо</strong>
+        <span class="item-note">Переключитись на план Б (скріни/відео). Після зустрічі — надіслати live-версію окремо.</span>
+      </div>
+    </div>
+    <div class="check-item crisis-item" onclick="toggle(this)">
+      <div class="check-box"></div>
+      <div class="item-text"><strong>Клієнт не ходить на демо</strong>
+        <span class="item-note">Надіслати Async Demo (Loom). Запропонувати 15-хвилинний формат. За потреби — ескалювати і знайти особу, що приймає рішення.</span>
+      </div>
+    </div>
+    <div class="check-item crisis-item" onclick="toggle(this)">
+      <div class="check-box"></div>
+      <div class="item-text"><strong>Зустріч захоплена питаннями — не встигаємо показати головне</strong>
+        <span class="item-note">Фіксуємо питання в Parking Lot, показуємо залишок у Compress Mode, решту — у follow-up як Async Demo.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 5 -->
+  <div class="section" id="section-5">
+    <div class="section-header">
+      <div class="section-icon">🧠</div>
+      <div class="section-title">Психологія та Self-менеджмент</div>
+      <div class="section-meta" id="meta-5">0/0</div>
+    </div>
+
+    <div class="check-item" onclick="toggle(this)">
+      <div class="check-box"></div>
+      <div class="item-text">Виписати свої страхи перед демо і знайти для кожного «опортюніті» для зростання</div>
+    </div>
+    <div class="check-item" onclick="toggle(this)">
+      <div class="check-box"></div>
+      <div class="item-text">Нагадати собі: великий бос — така сама людина, що теж виконує свою роботу за зарплату</div>
+    </div>
+    <div class="check-item" onclick="toggle(this)">
+      <div class="check-box"></div>
+      <div class="item-text">Занурюватися глибше в контекст проєкту — розуміння знімає страх перед технічними питаннями</div>
+    </div>
+    <div class="check-item" onclick="toggle(this)">
+      <div class="check-box"></div>
+      <div class="item-text">Домовитись із командою заздалегідь, хто підхоплює технічні питання під час демо</div>
+    </div>
+    <div class="check-item" onclick="toggle(this)">
+      <div class="check-box"></div>
+      <div class="item-text">При роботі з токсичними стейкхолдерами — пояснювати цінність через бізнес-мову, а не технічні деталі</div>
+    </div>
+    <div class="check-item" onclick="toggle(this)">
+      <div class="check-box"></div>
+      <div class="item-text">Проводити Lesson Learned після кожного невдалого демо і готувати план на наступний раз</div>
+    </div>
+  </div>
+
+  <div class="all-done-banner" id="doneBanner">
+    <small>✦ &nbsp; Браво &nbsp; ✦</small>
+    <p>You're not just ready for a demo.<br>You're ready for a <em>standing ovation.</em></p>
+  </div>
+
+  <div class="footer-actions">
+    <button class="btn-reset" onclick="resetAll()">Скинути чек-ліст</button>
+    <p class="footer-note">«Підготовка — це не про перфекціонізм. Це про повагу до клієнта і команди.»</p>
+  </div>
+
+</div>
+
+<script>
+  const STORAGE_KEY = 'prada_demo_checklist_v1';
+
+  function getItems() {
+    return document.querySelectorAll('.check-item');
+  }
+
+  function saveState() {
+    const items = getItems();
+    const state = Array.from(items).map(el => el.classList.contains('done'));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+
+  function loadState() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+      if (!saved) return;
+      const items = getItems();
+      items.forEach((el, i) => {
+        if (saved[i]) el.classList.add('done');
+      });
+    } catch(e) {}
+  }
+
+  function toggle(el) {
+    el.classList.toggle('done');
+    updateProgress();
+    saveState();
+  }
+
+  function updateProgress() {
+    const items = getItems();
+    const total = items.length;
+    const done = Array.from(items).filter(el => el.classList.contains('done')).length;
+
+    document.getElementById('progressFill').style.width = (done / total * 100) + '%';
+    document.getElementById('progressText').textContent = done + ' / ' + total;
+
+    // Section metas
+    const sections = document.querySelectorAll('.section');
+    sections.forEach((sec, i) => {
+      const secItems = sec.querySelectorAll('.check-item');
+      const secDone = Array.from(secItems).filter(el => el.classList.contains('done')).length;
+      const meta = document.getElementById('meta-' + (i + 1));
+      if (meta) meta.textContent = secDone + '/' + secItems.length;
+    });
+
+    // All done
+    document.getElementById('doneBanner').style.display = (done === total && total > 0) ? 'block' : 'none';
+  }
+
+  function resetAll() {
+    if (!confirm('Скинути всі відмітки?')) return;
+    getItems().forEach(el => el.classList.remove('done'));
+    updateProgress();
+    saveState();
+  }
+
+  loadState();
+  updateProgress();
+</script>
+</body>
+</html>
