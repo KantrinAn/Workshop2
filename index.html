@@ -20,9 +20,9 @@
       --deep-red: #8b1a1a;
       --ink: #3d2e22;
     }
-
+ 
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
+ 
     body {
       background-color: var(--cream);
       font-family: 'Cormorant Garamond', Georgia, serif;
@@ -31,7 +31,7 @@
       position: relative;
       overflow-x: hidden;
     }
-
+ 
     /* Textured background */
     body::before {
       content: '';
@@ -43,7 +43,7 @@
       pointer-events: none;
       z-index: 0;
     }
-
+ 
     /* Decorative corner lines */
     .corner-decoration {
       position: fixed;
@@ -56,7 +56,7 @@
     .corner-decoration.top-right { top: 20px; right: 20px; border-top: 1px solid var(--gold); border-right: 1px solid var(--gold); }
     .corner-decoration.bottom-left { bottom: 20px; left: 20px; border-bottom: 1px solid var(--gold); border-left: 1px solid var(--gold); }
     .corner-decoration.bottom-right { bottom: 20px; right: 20px; border-bottom: 1px solid var(--gold); border-right: 1px solid var(--gold); }
-
+ 
     .wrapper {
       position: relative;
       z-index: 2;
@@ -64,14 +64,14 @@
       margin: 0 auto;
       padding: 60px 40px 100px;
     }
-
+ 
     /* Header */
     .header {
       text-align: center;
       margin-bottom: 64px;
       animation: fadeInDown 0.9s ease forwards;
     }
-
+ 
     .header .eyebrow {
       font-family: 'Cormorant Garamond', serif;
       font-size: 11px;
@@ -81,7 +81,7 @@
       color: var(--gold);
       margin-bottom: 16px;
     }
-
+ 
     .header h1 {
       font-family: 'Playfair Display', Georgia, serif;
       font-size: clamp(36px, 6vw, 62px);
@@ -90,12 +90,12 @@
       line-height: 1.1;
       margin-bottom: 6px;
     }
-
+ 
     .header h1 em {
       font-style: italic;
       color: var(--gold-dark);
     }
-
+ 
     .header .subtitle {
       font-size: 15px;
       font-weight: 300;
@@ -104,7 +104,7 @@
       letter-spacing: 1px;
       margin-top: 14px;
     }
-
+ 
     .header-divider {
       display: flex;
       align-items: center;
@@ -126,7 +126,7 @@
       font-size: 18px;
       color: var(--gold);
     }
-
+ 
     /* Progress bar */
     .progress-bar-wrap {
       background: var(--warm-white);
@@ -153,7 +153,7 @@
       margin-top: 8px;
     }
     .progress-label span { color: var(--gold-dark); font-weight: 600; }
-
+ 
     /* Section */
     .section {
       margin-bottom: 52px;
@@ -165,7 +165,7 @@
     .section:nth-child(3) { animation-delay: 0.3s; }
     .section:nth-child(4) { animation-delay: 0.4s; }
     .section:nth-child(5) { animation-delay: 0.5s; }
-
+ 
     .section-header {
       display: flex;
       align-items: center;
@@ -174,7 +174,7 @@
       padding-bottom: 14px;
       border-bottom: 1px solid var(--gold-light);
     }
-
+ 
     .section-icon {
       width: 36px;
       height: 36px;
@@ -187,7 +187,7 @@
       flex-shrink: 0;
       box-shadow: 0 2px 8px rgba(200,169,110,0.3);
     }
-
+ 
     .section-title {
       font-family: 'Playfair Display', serif;
       font-size: 22px;
@@ -195,7 +195,7 @@
       color: var(--espresso);
       letter-spacing: 0.3px;
     }
-
+ 
     .section-meta {
       margin-left: auto;
       font-size: 11px;
@@ -204,7 +204,7 @@
       color: var(--warm-gray);
       white-space: nowrap;
     }
-
+ 
     /* Checklist items */
     .check-item {
       display: flex;
@@ -219,24 +219,24 @@
       transition: all 0.25s ease;
       position: relative;
     }
-
+ 
     .check-item:hover {
       background: rgba(255,255,255,0.9);
       border-color: var(--gold-light);
       transform: translateX(3px);
     }
-
+ 
     .check-item.done {
       background: rgba(200,169,110,0.08);
       border-color: rgba(200,169,110,0.3);
     }
-
+ 
     .check-item.done .item-text {
       color: var(--warm-gray);
       text-decoration: line-through;
       text-decoration-color: var(--gold);
     }
-
+ 
     .check-box {
       width: 22px;
       height: 22px;
@@ -250,12 +250,12 @@
       transition: all 0.2s ease;
       background: white;
     }
-
+ 
     .check-item.done .check-box {
       background: var(--gold);
       border-color: var(--gold-dark);
     }
-
+ 
     .check-box::after {
       content: '✓';
       color: white;
@@ -264,9 +264,9 @@
       opacity: 0;
       transition: opacity 0.2s ease;
     }
-
+ 
     .check-item.done .check-box::after { opacity: 1; }
-
+ 
     .item-text {
       font-size: 15px;
       font-weight: 400;
@@ -275,7 +275,7 @@
       transition: all 0.2s ease;
       flex: 1;
     }
-
+ 
     .item-note {
       font-style: italic;
       font-size: 13px;
@@ -283,15 +283,130 @@
       margin-top: 3px;
       display: block;
     }
-
-    /* Crisis scenarios — highlighted */
-    .crisis-item {
-      background: rgba(139,26,26,0.04);
-      border-color: rgba(139,26,26,0.15);
+ 
+    /* Crisis scenario cards */
+    .crisis-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
     }
-    .crisis-item:hover { border-color: rgba(139,26,26,0.3); }
-    .crisis-item.done { background: rgba(200,169,110,0.08); border-color: rgba(200,169,110,0.3); }
-
+    @media (max-width: 620px) {
+      .crisis-grid { grid-template-columns: 1fr; }
+    }
+ 
+    .crisis-card {
+      background: rgba(139,26,26,0.04);
+      border: 1px solid rgba(139,26,26,0.18);
+      border-radius: 2px;
+      padding: 20px 20px 18px;
+      transition: all 0.22s ease;
+    }
+    .crisis-card:hover {
+      background: rgba(139,26,26,0.07);
+      border-color: rgba(139,26,26,0.32);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(139,26,26,0.08);
+    }
+    .crisis-card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--deep-red);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .crisis-card-title::before {
+      content: '!';
+      display: inline-flex;
+      width: 20px;
+      height: 20px;
+      background: var(--deep-red);
+      color: white;
+      font-size: 11px;
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 700;
+      border-radius: 50%;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .crisis-steps {
+      list-style: none;
+      counter-reset: step;
+    }
+    .crisis-steps li {
+      counter-increment: step;
+      display: flex;
+      gap: 10px;
+      font-size: 13.5px;
+      color: var(--ink);
+      line-height: 1.5;
+      padding: 5px 0;
+      border-bottom: 1px solid rgba(139,26,26,0.08);
+    }
+    .crisis-steps li:last-child { border-bottom: none; }
+    .crisis-steps li::before {
+      content: counter(step);
+      min-width: 20px;
+      height: 20px;
+      background: rgba(139,26,26,0.12);
+      color: var(--deep-red);
+      font-size: 11px;
+      font-weight: 600;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+ 
+    /* Tip cards for psychology section */
+    .tips-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
+    }
+    @media (max-width: 700px) {
+      .tips-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 460px) {
+      .tips-grid { grid-template-columns: 1fr; }
+    }
+ 
+    .tip-card {
+      background: rgba(255,255,255,0.7);
+      border: 1px solid var(--gold-light);
+      border-radius: 2px;
+      padding: 18px 16px 16px;
+      transition: all 0.22s ease;
+    }
+    .tip-card:hover {
+      background: white;
+      border-color: var(--gold);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(200,169,110,0.15);
+    }
+    .tip-icon {
+      font-size: 22px;
+      margin-bottom: 10px;
+      display: block;
+    }
+    .tip-text {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--ink);
+    }
+    .tip-text strong {
+      display: block;
+      font-family: 'Playfair Display', serif;
+      font-size: 14px;
+      color: var(--espresso);
+      margin-bottom: 4px;
+    }
+ 
     /* Quote block */
     .quote-block {
       border-left: 3px solid var(--gold);
@@ -299,7 +414,7 @@
       margin: 32px 0 40px;
       background: rgba(232,213,163,0.15);
     }
-
+ 
     .quote-block p {
       font-family: 'Playfair Display', serif;
       font-size: 17px;
@@ -307,7 +422,7 @@
       color: var(--espresso);
       line-height: 1.7;
     }
-
+ 
     .quote-block cite {
       display: block;
       margin-top: 8px;
@@ -317,7 +432,7 @@
       color: var(--gold-dark);
       font-style: normal;
     }
-
+ 
     /* Reset button */
     .footer-actions {
       text-align: center;
@@ -325,7 +440,7 @@
       padding-top: 40px;
       border-top: 1px solid var(--gold-light);
     }
-
+ 
     .btn-reset {
       background: transparent;
       border: 1px solid var(--gold);
@@ -338,12 +453,12 @@
       cursor: pointer;
       transition: all 0.2s ease;
     }
-
+ 
     .btn-reset:hover {
       background: var(--gold);
       color: white;
     }
-
+ 
     .footer-note {
       margin-top: 24px;
       font-size: 12px;
@@ -351,18 +466,18 @@
       letter-spacing: 1px;
       font-style: italic;
     }
-
+ 
     /* Animations */
     @keyframes fadeInDown {
       from { opacity: 0; transform: translateY(-20px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
+ 
     @keyframes fadeInUp {
       from { opacity: 0; transform: translateY(16px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
+ 
     /* Completed celebration */
     .all-done-banner {
       display: none;
@@ -373,14 +488,14 @@
       margin-top: 48px;
       animation: fadeInUp 0.5s ease;
     }
-
+ 
     .all-done-banner p {
       font-family: 'Playfair Display', serif;
       font-size: 22px;
       font-style: italic;
       color: var(--espresso);
     }
-
+ 
     .all-done-banner small {
       font-size: 11px;
       letter-spacing: 3px;
@@ -390,31 +505,31 @@
   </style>
 </head>
 <body>
-
+ 
 <div class="corner-decoration top-left"></div>
 <div class="corner-decoration top-right"></div>
 <div class="corner-decoration bottom-left"></div>
 <div class="corner-decoration bottom-right"></div>
-
+ 
 <div class="wrapper">
-
+ 
   <header class="header">
     <div class="eyebrow">PM Bootcamp 2.0 · Workshop 2</div>
     <h1>The Art of <em>Demo</em></h1>
     <p class="subtitle">Чек-ліст успішної демо-презентації</p>
     <div class="header-divider"><span>✦</span></div>
   </header>
-
+ 
   <div class="progress-bar-wrap">
     <div class="progress-bar-fill" id="progressFill"></div>
   </div>
   <div class="progress-label">Виконано: <span id="progressText">0 / 0</span></div>
-
+ 
   <div class="quote-block">
     <p>«Клієнт хоче не просто побачити фічі — він хоче знати, чи може він вам довіряти, чи рухаєтесь ви в правильному напрямку і чи не переплачує він.»</p>
     <cite>Workshop insight</cite>
   </div>
-
+ 
   <!-- Section 1 -->
   <div class="section" id="section-1">
     <div class="section-header">
@@ -422,7 +537,7 @@
       <div class="section-title">До демо — Підготовка</div>
       <div class="section-meta" id="meta-1">0/0</div>
     </div>
-
+ 
     <div class="check-item" onclick="toggle(this)">
       <div class="check-box"></div>
       <div class="item-text">Узгодити дату демо з клієнтом і повідомити всіх учасників
@@ -490,7 +605,7 @@
       <div class="item-text">Перевірити інтернет-з'єднання, мікрофон, камеру та розмір екрану</div>
     </div>
   </div>
-
+ 
   <!-- Section 2 -->
   <div class="section" id="section-2">
     <div class="section-header">
@@ -498,7 +613,7 @@
       <div class="section-title">Під час демо — Проведення</div>
       <div class="section-meta" id="meta-2">0/0</div>
     </div>
-
+ 
     <div class="check-item" onclick="toggle(this)">
       <div class="check-box"></div>
       <div class="item-text">Увімкнути запис зустрічі та повідомити учасників</div>
@@ -534,7 +649,7 @@
       <div class="item-text">Узгодити наступні кроки для обох сторін (хто, що і коли)</div>
     </div>
   </div>
-
+ 
   <!-- Section 3 -->
   <div class="section" id="section-3">
     <div class="section-header">
@@ -542,7 +657,7 @@
       <div class="section-title">Після демо — Follow-up</div>
       <div class="section-meta" id="meta-3">0/0</div>
     </div>
-
+ 
     <div class="check-item" onclick="toggle(this)">
       <div class="check-box"></div>
       <div class="item-text">Надіслати клієнту Summary та Follow-up з наступними кроками</div>
@@ -566,106 +681,146 @@
       </div>
     </div>
   </div>
-
-  <!-- Section 4 -->
+ 
+  <!-- Section 4: Crisis scenarios as cards -->
   <div class="section" id="section-4">
     <div class="section-header">
       <div class="section-icon">🚨</div>
       <div class="section-title">Кризові сценарії — Як реагувати</div>
-      <div class="section-meta" id="meta-4">0/0</div>
     </div>
-
-    <div class="check-item crisis-item" onclick="toggle(this)">
-      <div class="check-box"></div>
-      <div class="item-text"><strong>«Це не те, що ми просили»</strong>
-        <span class="item-note">1. Подякуй і не захищайся → 2. Уточни, який крок здається зайвим → 3. Поясни рішення з доказами → 4. Запропонуй варіант на перегляд → 5. Зафіксуй як відкрите питання</span>
+ 
+    <div class="crisis-grid">
+      <div class="crisis-card">
+        <div class="crisis-card-title">«Це не те, що ми просили»</div>
+        <ol class="crisis-steps">
+          <li>Подякуй — не захищайся і не виправдовуйся</li>
+          <li>Уточни: який саме крок здається зайвим?</li>
+          <li>Поясни рішення з конкретними доказами (листування, вимоги)</li>
+          <li>Запропонуй спрощений варіант на перегляд</li>
+          <li>Зафікуй як відкрите питання і назви дату відповіді</li>
+        </ol>
       </div>
-    </div>
-    <div class="check-item crisis-item" onclick="toggle(this)">
-      <div class="check-box"></div>
-      <div class="item-text"><strong>«А що, якщо це не спрацює?»</strong>
-        <span class="item-note">1. Вислухай досвід клієнта уважно → 2. Уточни технічні деталі попереднього рішення → 3. Поясни ключову різницю підходу → 4. Запропонуй пілот на 10% з правом відкату → 5. Запитай апрув</span>
+ 
+      <div class="crisis-card">
+        <div class="crisis-card-title">«А що, якщо це не спрацює?»</div>
+        <ol class="crisis-steps">
+          <li>Вислухай досвід клієнта — дай виговоритися</li>
+          <li>Уточни технічні деталі попереднього рішення</li>
+          <li>Поясни ключову різницю нового підходу</li>
+          <li>Запропонуй пілот на 10% з правом відкату</li>
+          <li>Запитай апрув — чи готові рухатись далі?</li>
+        </ol>
       </div>
-    </div>
-    <div class="check-item crisis-item" onclick="toggle(this)">
-      <div class="check-box"></div>
-      <div class="item-text"><strong>Технічний збій під час демо</strong>
-        <span class="item-note">Переключитись на план Б (скріни/відео). Після зустрічі — надіслати live-версію окремо.</span>
+ 
+      <div class="crisis-card">
+        <div class="crisis-card-title">Технічний збій під час демо</div>
+        <ol class="crisis-steps">
+          <li>Спокійно повідомити учасникам про збій</li>
+          <li>Переключитись на план Б — скріни або відеозапис</li>
+          <li>Після зустрічі надіслати live-версію окремо</li>
+        </ol>
       </div>
-    </div>
-    <div class="check-item crisis-item" onclick="toggle(this)">
-      <div class="check-box"></div>
-      <div class="item-text"><strong>Клієнт не ходить на демо</strong>
-        <span class="item-note">Надіслати Async Demo (Loom). Запропонувати 15-хвилинний формат. За потреби — ескалювати і знайти особу, що приймає рішення.</span>
+ 
+      <div class="crisis-card">
+        <div class="crisis-card-title">Клієнт не приходить на демо</div>
+        <ol class="crisis-steps">
+          <li>Надіслати Async Demo через Loom</li>
+          <li>Запропонувати скорочений формат — 15 хвилин</li>
+          <li>Уточнити, що заважає зустрітись</li>
+          <li>За потреби — ескалювати до особи, що вирішує</li>
+        </ol>
       </div>
-    </div>
-    <div class="check-item crisis-item" onclick="toggle(this)">
-      <div class="check-box"></div>
-      <div class="item-text"><strong>Зустріч захоплена питаннями — не встигаємо показати головне</strong>
-        <span class="item-note">Фіксуємо питання в Parking Lot, показуємо залишок у Compress Mode, решту — у follow-up як Async Demo.</span>
+ 
+      <div class="crisis-card">
+        <div class="crisis-card-title">Зустріч захоплена питаннями</div>
+        <ol class="crisis-steps">
+          <li>Фіксувати питання в Parking Lot</li>
+          <li>Показати залишок демо у Compress Mode</li>
+          <li>Решту надіслати у follow-up як Async Demo</li>
+          <li>Дотримуватись таймбоксу — не розтягувати</li>
+        </ol>
       </div>
     </div>
   </div>
-
-  <!-- Section 5 -->
+ 
+  <!-- Section 5: Psychology as tip cards -->
   <div class="section" id="section-5">
     <div class="section-header">
       <div class="section-icon">🧠</div>
       <div class="section-title">Психологія та Self-менеджмент</div>
-      <div class="section-meta" id="meta-5">0/0</div>
     </div>
-
-    <div class="check-item" onclick="toggle(this)">
-      <div class="check-box"></div>
-      <div class="item-text">Виписати свої страхи перед демо і знайти для кожного «опортюніті» для зростання</div>
-    </div>
-    <div class="check-item" onclick="toggle(this)">
-      <div class="check-box"></div>
-      <div class="item-text">Нагадати собі: великий бос — така сама людина, що теж виконує свою роботу за зарплату</div>
-    </div>
-    <div class="check-item" onclick="toggle(this)">
-      <div class="check-box"></div>
-      <div class="item-text">Занурюватися глибше в контекст проєкту — розуміння знімає страх перед технічними питаннями</div>
-    </div>
-    <div class="check-item" onclick="toggle(this)">
-      <div class="check-box"></div>
-      <div class="item-text">Домовитись із командою заздалегідь, хто підхоплює технічні питання під час демо</div>
-    </div>
-    <div class="check-item" onclick="toggle(this)">
-      <div class="check-box"></div>
-      <div class="item-text">При роботі з токсичними стейкхолдерами — пояснювати цінність через бізнес-мову, а не технічні деталі</div>
-    </div>
-    <div class="check-item" onclick="toggle(this)">
-      <div class="check-box"></div>
-      <div class="item-text">Проводити Lesson Learned після кожного невдалого демо і готувати план на наступний раз</div>
+ 
+    <div class="tips-grid">
+      <div class="tip-card">
+        <span class="tip-icon">😨</span>
+        <div class="tip-text">
+          <strong>Визнай страхи</strong>
+          Виписуй свої страхи перед демо — і для кожного знаходь «опортюніті» для зростання. Страх — це сигнал, де є зона росту.
+        </div>
+      </div>
+      <div class="tip-card">
+        <span class="tip-icon">🧑‍💼</span>
+        <div class="tip-text">
+          <strong>Бос — теж людина</strong>
+          Великий начальник спить, ходить у магазин і нервує так само. Уяви його в пляжному костюмі — це знижує тривогу і вирівнює сприйняття.
+        </div>
+      </div>
+      <div class="tip-card">
+        <span class="tip-icon">📚</span>
+        <div class="tip-text">
+          <strong>Занурюйся в контекст</strong>
+          Чим краще ти розумієш проєкт — тим менше страх перед технічними питаннями. Уточнюй незрозуміле до рефайнменту, а не під час демо.
+        </div>
+      </div>
+      <div class="tip-card">
+        <span class="tip-icon">🤝</span>
+        <div class="tip-text">
+          <strong>Домовся про підстраховку</strong>
+          Заздалегідь погодь із командою, хто підхоплює технічні питання. Відчуття, що тебе підстрахують — вже знімає тривогу вдвічі.
+        </div>
+      </div>
+      <div class="tip-card">
+        <span class="tip-icon">💼</span>
+        <div class="tip-text">
+          <strong>Говори бізнес-мовою</strong>
+          З токсичними стейкхолдерами не йди в технічні деталі. Пояснюй цінність через бізнес-результат: що це дає продукту і бюджету.
+        </div>
+      </div>
+      <div class="tip-card">
+        <span class="tip-icon">🔁</span>
+        <div class="tip-text">
+          <strong>Роби Lesson Learned</strong>
+          Після кожного складного демо — аналізуй, що пішло не так, і готуй план на наступний раз. Прогрес через рефлексію, а не самокритику.
+        </div>
+      </div>
     </div>
   </div>
-
+ 
   <div class="all-done-banner" id="doneBanner">
     <small>✦ &nbsp; Браво &nbsp; ✦</small>
     <p>You're not just ready for a demo.<br>You're ready for a <em>standing ovation.</em></p>
   </div>
-
+ 
   <div class="footer-actions">
     <button class="btn-reset" onclick="resetAll()">Скинути чек-ліст</button>
     <p class="footer-note">«Підготовка — це не про перфекціонізм. Це про повагу до клієнта і команди.»</p>
   </div>
-
+ 
 </div>
-
+ 
 <script>
   const STORAGE_KEY = 'prada_demo_checklist_v1';
-
+ 
   function getItems() {
     return document.querySelectorAll('.check-item');
   }
-
+ 
   function saveState() {
     const items = getItems();
     const state = Array.from(items).map(el => el.classList.contains('done'));
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   }
-
+ 
   function loadState() {
     try {
       const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
@@ -676,21 +831,21 @@
       });
     } catch(e) {}
   }
-
+ 
   function toggle(el) {
     el.classList.toggle('done');
     updateProgress();
     saveState();
   }
-
+ 
   function updateProgress() {
     const items = getItems();
     const total = items.length;
     const done = Array.from(items).filter(el => el.classList.contains('done')).length;
-
+ 
     document.getElementById('progressFill').style.width = (done / total * 100) + '%';
     document.getElementById('progressText').textContent = done + ' / ' + total;
-
+ 
     // Section metas
     const sections = document.querySelectorAll('.section');
     sections.forEach((sec, i) => {
@@ -699,18 +854,18 @@
       const meta = document.getElementById('meta-' + (i + 1));
       if (meta) meta.textContent = secDone + '/' + secItems.length;
     });
-
+ 
     // All done
     document.getElementById('doneBanner').style.display = (done === total && total > 0) ? 'block' : 'none';
   }
-
+ 
   function resetAll() {
     if (!confirm('Скинути всі відмітки?')) return;
     getItems().forEach(el => el.classList.remove('done'));
     updateProgress();
     saveState();
   }
-
+ 
   loadState();
   updateProgress();
 </script>
